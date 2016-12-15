@@ -1,0 +1,55 @@
+<div class="row">
+	<h2 style="display:inline-block;"><%= @event.name %></h2>
+	
+	<a style="float:right" href="/sessions/<%=session[:user_id]%>" data-method="delete">&nbsp;&nbsp;Logout</a>
+
+	<a style="float:right" href="/events">Events Dashboard&nbsp;&nbsp;|</a>
+</div>
+
+<div class="col-md-6" style="margin-top: 10px;">
+	<h6>Host: <%= @event.host.first_name %></h6>
+	<h6>Date: <%= @event.date %></h6>
+	<h6>Location: <%= @event.city %>, <%= @event.state.name %></h6>
+	<h6>People who are joining the event: <%= @event.users.count(:all) %></h6>
+<% if @event.users.count(:all)>0 %>
+	<table class="table-striped table-bordered">
+		<tr>
+			<th>Name</th>
+			<th>City</th>
+			<th>State</th>
+		</tr>
+		<% @event.users.each do |attend| %>
+			<tr>
+				<td><%= attend.first_name %> <%= attend.last_name %></td>
+				<td><%= attend.city %></td>
+				<td><%= attend.state.name %></td>
+			</tr>
+		<% end %>
+	</table>
+<% end %>
+</div>
+
+<div class="col-md-6" style="margin-top: 20px;">
+
+<h6>Discussions about this event:</h6>
+	
+	<div class='col-md-6'>
+		<% @comment.each do |comment| %>
+			<p><%= comment.content %></p>
+			<hr>
+		<% end %>
+	</div>
+
+	<form action="/comments" method="post">
+		
+		<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>">
+		
+		<input type="hidden" name="event" value="<%= @event.id %>">
+		
+		<input type="text" name="content">
+
+		<input class="btn btn-primary btn-sm" type="submit" name="make_comment" value="Add Comment">
+		
+	</form>
+
+</div>

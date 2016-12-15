@@ -1,0 +1,48 @@
+<div class="row">
+	<h3 style="display:inline-block;">Edit: <%= @user.first_name %> <%= @user.last_name %></h3>
+	
+	<a style="float:right" href="/sessions/<%=session[:user_id]%>" data-method="delete">&nbsp;&nbsp;Logout</a>
+	<a style="float:right" href="/events">Events Dashboard&nbsp;&nbsp;|</a>
+</div>
+
+<div class="row">
+ <div class="col-md-6">
+   <div class="row">
+	
+	<form action="/users/<%= @user.id %>" method="post">
+	
+		<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>">
+		<input type="hidden" name="_method" value="patch">
+		<div>
+			<label>First Name:<input type="text" name="user[first_name]" value="<%= @user.first_name %>"></label>
+		</div>
+
+		<div>
+			<label>Last Name:<input type="text" name="user[last_name]" value="<%= @user.last_name %>"></label>
+		</div>
+
+		<div>
+			<label>Email:<input type="text" name="user[email]" value="<%= @user.email %>"></label>
+		</div>
+
+		<div>
+			<label>City:<input type="text" name="user[city]" value="<%= @user.city %>"></label>
+		</div>
+
+
+		<div>
+			<label>State:
+				<select name="user[state]" >
+					<option value="<%= @user.state.id %>" selected='selected'><%= @user.state.name %></option>
+					<% get_states.each do |state| %>
+						<option value="<%= state.id %>"><%= state.name %></option>
+					<% end %>
+				</select>
+			</label>
+		</div>
+
+		<input type="submit" name="add_events" value="Update">
+	</form>
+  </div>
+ </div>
+</div>
